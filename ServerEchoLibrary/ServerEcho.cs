@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -104,8 +105,15 @@ namespace ServerEchoLibrary
         {
             while(true)
             {
-                int message_size = stream.Read(buffer, 0, buffer_size);
-                stream.Write(buffer, 0, message_size);
+                try
+                {
+                    int message_size = stream.Read(buffer, 0, buffer_size);
+                    stream.Write(buffer, 0, message_size);
+                }
+                catch(IOException e)
+                {
+                    break;
+                }
             }
         }
         /// <summary>
