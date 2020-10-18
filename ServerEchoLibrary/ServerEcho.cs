@@ -97,6 +97,7 @@ namespace ServerEchoLibrary
             tcpClient = tcpListener.AcceptTcpClient();
             buffer = new byte[Buffer_size];
             stream = tcpClient.GetStream();
+            BeginDataTransmission();
         }
         /// <summary>
         /// This function implements Echo and transmits the data between server and client.
@@ -122,8 +123,8 @@ namespace ServerEchoLibrary
         public void Start()
         {
             StartListening();
+            //transmission starts within the accept function
             AcceptClient();
-            BeginDataTransmission();
         }
         #endregion
     }
