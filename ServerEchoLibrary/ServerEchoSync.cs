@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 
 namespace ServerEchoLibrary
@@ -21,9 +22,9 @@ namespace ServerEchoLibrary
             TcpClient = TcpListener.AcceptTcpClient();
             byte[] buffer = new byte[Buffer_size];
             Stream = TcpClient.GetStream();
-            BeginDataTransmission();
+            BeginDataTransmission(Stream);
         }
-        protected override void BeginDataTransmission()
+        protected override void BeginDataTransmission(NetworkStream stream)
         {
             byte[] buffer = new byte[1024];
             while (true)
@@ -38,8 +39,8 @@ namespace ServerEchoLibrary
                     break;
                 }
             }
-            
         }
+
         /// <summary>
         /// Overrided comment.
         /// </summary>

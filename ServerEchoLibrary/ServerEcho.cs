@@ -99,7 +99,7 @@ namespace ServerEchoLibrary
         /// <summary>
         /// This function implements Echo and transmits the data between server and client.
         /// </summary>
-        protected abstract void BeginDataTransmission();
+        protected abstract void BeginDataTransmission(NetworkStream stream);
         /// <summary>
         /// This function fires off the default server behaviour. It interrupts the program.
         /// </summary>
