@@ -25,13 +25,13 @@ namespace ServerEchoLibrary
 
 
                 ////callback style
-                //transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
+                transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
                 //async result style
-                IAsyncResult result = transmissionDelegate.BeginInvoke(Stream, null, null);
-                IAsyncResult result2 = transmissionDelegate.BeginInvoke(Stream, null, null);
-                IAsyncResult result3 = transmissionDelegate.BeginInvoke(Stream, null, null);
-                WaitHandle.WaitAll(new WaitHandle[] { result.AsyncWaitHandle, result2.AsyncWaitHandle, result3.AsyncWaitHandle});
-                while (!result.IsCompleted) ;   
+                //IAsyncResult result = transmissionDelegate.BeginInvoke(Stream, null, null);
+                //IAsyncResult result2 = transmissionDelegate.BeginInvoke(Stream, null, null);
+                //IAsyncResult result3 = transmissionDelegate.BeginInvoke(Stream, null, null);
+                //WaitHandle.WaitAll(new WaitHandle[] { result.AsyncWaitHandle, result2.AsyncWaitHandle, result3.AsyncWaitHandle});
+                //while (!result.IsCompleted) ;   
                 //synchronizacja
             }
         }
