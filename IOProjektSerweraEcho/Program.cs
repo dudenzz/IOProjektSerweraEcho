@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ServerEchoLibrary;
+using System;
+using System.Net;
 
 namespace IOProjektSerweraEcho
 {
@@ -6,7 +8,8 @@ namespace IOProjektSerweraEcho
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ServerEcho server = new ServerEcho(IPAddress.Parse("127.0.0.1"), 3000);
+            server.Start();
         }
     }
 }
