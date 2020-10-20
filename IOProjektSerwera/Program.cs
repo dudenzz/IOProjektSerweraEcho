@@ -12,14 +12,6 @@ namespace IOProjektSerwera
         static void Main(string[] args)
         {
             ServerEcho server = new ServerEchoAPM(IPAddress.Parse("127.0.0.1"), 3000);
-            try
-            {
-                server.Port = -1;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
             server.Start();
         }
     }

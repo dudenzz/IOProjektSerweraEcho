@@ -17,7 +17,7 @@ namespace ServerEchoLibrary
         IPAddress iPAddress;
         int port;
         int buffer_size = 1024;
-        bool running;
+        protected bool running;
         TcpListener tcpListener;
         TcpClient tcpClient;
         NetworkStream stream;

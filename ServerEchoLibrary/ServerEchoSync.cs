@@ -31,8 +31,8 @@ namespace ServerEchoLibrary
             {
                 try
                 {
-                    int message_size = Stream.Read(buffer, 0, Buffer_size);
-                    Stream.Write(buffer, 0, message_size);
+                    int message_size = stream.Read(buffer, 0, Buffer_size);
+                    stream.Write(buffer, 0, message_size);
                 }
                 catch (IOException e)
                 {
@@ -46,6 +46,7 @@ namespace ServerEchoLibrary
         /// </summary>
         public override void Start()
         {
+            running = true;
             StartListening();
             //transmission starts within the accept function
             AcceptClient();
