@@ -11,7 +11,7 @@ namespace ServerEchoLibrary
     /// <summary>
     /// This class implements the most basic TCP Server of the Echo Type.
     /// </summary>
-    public class ServerEchoSync : ServerEcho
+    public class ServerEchoSync : Server
     {
         public ServerEchoSync(IPAddress IP, int port) : base(IP, port)
         {

@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace ServerEchoLibrary
 {
-    public class ServerEchoAPM : ServerEcho
+    public class ServerEchoAPM : Server
     {
         public delegate void TransmissionDataDelegate(NetworkStream stream);
         public ServerEchoAPM(IPAddress IP, int port) : base(IP, port)
@@ -20,21 +20,13 @@ namespace ServerEchoLibrary
             while (true)
             {
                 TcpClient tcpClient = TcpListener.AcceptTcpClient();
-                Stream = tcpClient.GetStream();
+                NetworkStream stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
+                transmissionDelegate.BeginInvoke(stream, TransmissionCallback, tcpClient);
 
-
-                ////callback style
-                //transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
-                //async result style
-                IAsyncResult result = transmissionDelegate.BeginInvoke(Stream, null, null);
-                IAsyncResult result2 = transmissionDelegate.BeginInvoke(Stream, null, null);
-                IAsyncResult result3 = transmissionDelegate.BeginInvoke(Stream, null, null);
-                WaitHandle.WaitAll(new WaitHandle[] { result.AsyncWaitHandle, result2.AsyncWaitHandle, result3.AsyncWaitHandle});
-                while (!result.IsCompleted) ;   
-                //synchronizacja
             }
         }
+
 
 
         private void TransmissionCallback(IAsyncResult ar)
@@ -44,7 +36,6 @@ namespace ServerEchoLibrary
         }
         protected override void BeginDataTransmission(NetworkStream stream)
         {
-            stream.ReadTimeout = 10000;
             byte[] buffer = new byte[Buffer_size];
             while (true)
             {

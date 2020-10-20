@@ -11,7 +11,7 @@ namespace ServerEchoLibrary
     /// <summary>
     /// This is an abstract class for Servers of Echo type.
     /// </summary>
-    public abstract class ServerEcho
+    public abstract class Server
     {
         #region Fields
         IPAddress iPAddress;
@@ -19,8 +19,6 @@ namespace ServerEchoLibrary
         int buffer_size = 1024;
         protected bool running;
         TcpListener tcpListener;
-        TcpClient tcpClient;
-        NetworkStream stream;
         #endregion
         #region Properties
         /// <summary>
@@ -52,8 +50,7 @@ namespace ServerEchoLibrary
         }
 
         protected TcpListener TcpListener { get => tcpListener; set => tcpListener = value; }
-        protected TcpClient TcpClient { get => tcpClient; set => tcpClient = value; }
-        protected NetworkStream Stream { get => stream; set => stream = value; }
+
         #endregion
         #region Constructors
         /// <summary>
@@ -61,7 +58,7 @@ namespace ServerEchoLibrary
         /// </summary>
         /// <param name="IP">IP address of the server instance.</param>
         /// <param name="port">Port number of the server instance.</param>
-        public ServerEcho(IPAddress IP, int port)
+        public Server(IPAddress IP, int port)
         {
 
             running = false;
