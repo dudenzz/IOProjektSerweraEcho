@@ -12,7 +12,7 @@ namespace ServerEchoLibrary
     /// </summary>
     public class ServerEchoSync : ServerEcho
     {
-        public ServerEchoSync(IPAddress IP, int port) : base(ip, port)
+        public ServerEchoSync(IPAddress IP, int port) : base(IP, port)
         {
 
         }
