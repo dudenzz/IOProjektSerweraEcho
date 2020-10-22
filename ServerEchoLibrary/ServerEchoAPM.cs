@@ -12,6 +12,7 @@ namespace ServerEchoLibrary
     public class ServerEchoAPM : ServerEcho
     {
         public delegate void TransmissionDataDelegate(NetworkStream stream);
+
         public ServerEchoAPM(IPAddress IP, int port) : base(IP, port)
         {
         }
@@ -20,25 +21,28 @@ namespace ServerEchoLibrary
             while (true)
             {
                 TcpClient tcpClient = TcpListener.AcceptTcpClient();
-                Stream = tcpClient.GetStream();
+                NetworkStream Stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
-
-
-                ////callback style
+  
+                //////callback style
                 transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
                 //async result style
                 //IAsyncResult result = transmissionDelegate.BeginInvoke(Stream, null, null);
                 //IAsyncResult result2 = transmissionDelegate.BeginInvoke(Stream, null, null);
                 //IAsyncResult result3 = transmissionDelegate.BeginInvoke(Stream, null, null);
-                //WaitHandle.WaitAll(new WaitHandle[] { result.AsyncWaitHandle, result2.AsyncWaitHandle, result3.AsyncWaitHandle});
+                
+                //operacje w wątku głównym
+                //WaitHandle.WaitAll(new WaitHandle[] { result.AsyncWaitHandle, result2.AsyncWaitHandle, result3.AsyncWaitHandle });
                 //while (!result.IsCompleted) ;   
                 //synchronizacja
             }
         }
 
+  
 
         private void TransmissionCallback(IAsyncResult ar)
         {
+            
             TcpClient tcpClient = (TcpClient)ar.AsyncState;
             tcpClient.Close();
         }

@@ -19,8 +19,7 @@ namespace ServerEchoLibrary
         int buffer_size = 1024;
         protected bool running;
         TcpListener tcpListener;
-        TcpClient tcpClient;
-        NetworkStream stream;
+
         #endregion
         #region Properties
         /// <summary>
@@ -52,8 +51,7 @@ namespace ServerEchoLibrary
         }
 
         protected TcpListener TcpListener { get => tcpListener; set => tcpListener = value; }
-        protected TcpClient TcpClient { get => tcpClient; set => tcpClient = value; }
-        protected NetworkStream Stream { get => stream; set => stream = value; }
+
         #endregion
         #region Constructors
         /// <summary>

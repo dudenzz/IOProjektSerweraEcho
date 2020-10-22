@@ -19,9 +19,9 @@ namespace ServerEchoLibrary
         }
         protected override void AcceptClient()
         {
-            TcpClient = TcpListener.AcceptTcpClient();
+            TcpClient TcpClient = TcpListener.AcceptTcpClient();
             byte[] buffer = new byte[Buffer_size];
-            Stream = TcpClient.GetStream();
+            NetworkStream Stream = TcpClient.GetStream();
             BeginDataTransmission(Stream);
         }
         protected override void BeginDataTransmission(NetworkStream stream)
