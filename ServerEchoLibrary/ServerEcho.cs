@@ -113,6 +113,7 @@ namespace ServerEchoLibrary
         /// </summary>
         public void Start()
         {
+            running = true;
             StartListening();
             AcceptClient();
             BeginDataTransmission();
