@@ -23,27 +23,33 @@ namespace ServerEchoLibrary
                 TcpClient tcpClient = TcpListener.AcceptTcpClient();
                 NetworkStream Stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
-  
+                /*
+                 * 1. Callback - OK
+                 * 2. EndInvoke - OK 
+                 * 3. WaitHandle - OK
+                 * 4. Polling  
+                 */
                 //////callback style
                 transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
                 //async result style
-                //IAsyncResult result = transmissionDelegate.BeginInvoke(Stream, null, null);
+                //delegateType funkcjaSilni = new delegateType(factorial);
+                //IAsyncResult result = funkcjaSilni.BeginInvoke(10, null, null);
+
+
                 //IAsyncResult result2 = transmissionDelegate.BeginInvoke(Stream, null, null);
                 //IAsyncResult result3 = transmissionDelegate.BeginInvoke(Stream, null, null);
-                
+
                 //operacje w wątku głównym
-                //WaitHandle.WaitAll(new WaitHandle[] { result.AsyncWaitHandle, result2.AsyncWaitHandle, result3.AsyncWaitHandle });
+
                 //while (!result.IsCompleted) ;   
                 //synchronizacja
             }
         }
 
-  
 
         private void TransmissionCallback(IAsyncResult ar)
         {
-            
-            TcpClient tcpClient = (TcpClient)ar.AsyncState;
+            TcpClient tcpClient = ar.AsyncState as TcpClient;
             tcpClient.Close();
         }
         protected override void BeginDataTransmission(NetworkStream stream)

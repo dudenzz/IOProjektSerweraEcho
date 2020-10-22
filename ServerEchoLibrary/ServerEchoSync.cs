@@ -20,13 +20,12 @@ namespace ServerEchoLibrary
         protected override void AcceptClient()
         {
             TcpClient TcpClient = TcpListener.AcceptTcpClient();
-            byte[] buffer = new byte[Buffer_size];
             NetworkStream Stream = TcpClient.GetStream();
             BeginDataTransmission(Stream);
         }
         protected override void BeginDataTransmission(NetworkStream stream)
         {
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[Buffer_size];
             while (true)
             {
                 try
@@ -36,6 +35,7 @@ namespace ServerEchoLibrary
                 }
                 catch (IOException e)
                 {
+                    
                     break;
                 }
             }
