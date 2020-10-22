@@ -12,10 +12,11 @@ namespace ServerEchoLibrary
     /// </summary>
     public class ServerEchoSync : ServerEcho
     {
-        public ServerEchoSync(IPAddress IP, int port) : base(IP, port)
+        public ServerEchoSync(IPAddress IP, int port) : base(ip, port)
         {
 
         }
+
         protected override void AcceptClient()
         {
             TcpClient = TcpListener.AcceptTcpClient();
@@ -23,6 +24,7 @@ namespace ServerEchoLibrary
             Stream = TcpClient.GetStream();
             BeginDataTransmission();
         }
+
         protected override void BeginDataTransmission()
         {
             Stream.ReadTimeout = 5000;
