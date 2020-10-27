@@ -26,6 +26,7 @@ namespace ServerEchoLibrary
         protected override void BeginDataTransmission(NetworkStream stream)
         {
             byte[] buffer = new byte[Buffer_size];
+            stream.ReadTimeout = 10000;
             while (true)
             {
                 try

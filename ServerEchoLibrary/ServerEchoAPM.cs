@@ -12,17 +12,26 @@ namespace ServerEchoLibrary
     public class ServerEchoAPM : ServerEcho
     {
         public delegate void TransmissionDataDelegate(NetworkStream stream);
-        public delegate int IntegerOperation(int argument);
+        //public delegate int IntegerOperation(int argument);
 
-        public int Factorial(int n)
-        {
-            int t = 1;
-            for(int i = 0; i<n; i++)
-            {
-                t *= i + 1;
-            }
-            return t;
-        }
+        //public int Factorial(int n)
+        //{
+        //    int t = 1;
+        //    for(int i = 0; i<n; i++)
+        //    {
+        //        t *= i + 1;
+        //    }
+        //    return t;
+        //}
+        //public int Edges(int n)
+        //{
+        //    int t = 1;
+        //    for (int i = 0; i < n; i++)
+        //    {
+        //        t += i + 1;
+        //    }
+        //    return t;
+        //}
         public ServerEchoAPM(IPAddress IP, int port) : base(IP, port)
         {
         }
@@ -33,7 +42,7 @@ namespace ServerEchoLibrary
                 TcpClient tcpClient = TcpListener.AcceptTcpClient();
                 NetworkStream Stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
-
+                
                 /*
                  * 1. Callback - OK
                  * 2. EndInvoke - OK 
@@ -42,6 +51,7 @@ namespace ServerEchoLibrary
                  */
                 //////callback style
                 transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
+
                 //async result style
                 //delegateType funkcjaSilni = new delegateType(factorial);
 
