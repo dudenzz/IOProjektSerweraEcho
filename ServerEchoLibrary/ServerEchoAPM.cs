@@ -12,7 +12,17 @@ namespace ServerEchoLibrary
     public class ServerEchoAPM : ServerEcho
     {
         public delegate void TransmissionDataDelegate(NetworkStream stream);
+        public delegate int IntegerOperation(int argument);
 
+        public int Factorial(int n)
+        {
+            int t = 1;
+            for(int i = 0; i<n; i++)
+            {
+                t *= i + 1;
+            }
+            return t;
+        }
         public ServerEchoAPM(IPAddress IP, int port) : base(IP, port)
         {
         }
@@ -23,6 +33,7 @@ namespace ServerEchoLibrary
                 TcpClient tcpClient = TcpListener.AcceptTcpClient();
                 NetworkStream Stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
+
                 /*
                  * 1. Callback - OK
                  * 2. EndInvoke - OK 
@@ -33,7 +44,7 @@ namespace ServerEchoLibrary
                 transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
                 //async result style
                 //delegateType funkcjaSilni = new delegateType(factorial);
-                //IAsyncResult result = funkcjaSilni.BeginInvoke(10, null, null);
+
 
 
                 //IAsyncResult result2 = transmissionDelegate.BeginInvoke(Stream, null, null);
@@ -49,12 +60,13 @@ namespace ServerEchoLibrary
 
         private void TransmissionCallback(IAsyncResult ar)
         {
+            
             TcpClient tcpClient = ar.AsyncState as TcpClient;
             tcpClient.Close();
         }
         protected override void BeginDataTransmission(NetworkStream stream)
         {
-            stream.ReadTimeout = 10000;
+            stream.ReadTimeout = 5000;
             byte[] buffer = new byte[Buffer_size];
             while (true)
             {
