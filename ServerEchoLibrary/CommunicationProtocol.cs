@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace ServerEchoLibrary
 {
-    public interface ICommunicationProtocol
+    public abstract class CommunicationProtocol
     {
-        string GenerateResponse(string message);
-        string GetName();
-        string GetAllMessages();
-        string GetAllResponses();
+        public CommunicationProtocol()
+        {
+
+        }
+        public abstract string GenerateResponse(string message);
+        public abstract string GetName();
+        public abstract string GetAllMessages();
+        public abstract string GetAllResponses();
     }
 }

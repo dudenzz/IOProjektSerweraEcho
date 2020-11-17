@@ -11,7 +11,7 @@ namespace ServerEchoLibrary
     /// <summary>
     /// This is an abstract class for Servers of Echo type.
     /// </summary>
-    public abstract class Server
+    public abstract class Server<T> where T : CommunicationProtocol, new()
     {
 
         #region Fields
@@ -51,7 +51,6 @@ namespace ServerEchoLibrary
         }
 
         protected TcpListener TcpListener { get => tcpListener; set => tcpListener = value; }
-        public ICommunicationProtocol Protocol { get; set; }
 
         #endregion
         #region Constructors
@@ -60,9 +59,9 @@ namespace ServerEchoLibrary
         /// </summary>
         /// <param name="IP">IP address of the server instance.</param>
         /// <param name="port">Port number of the server instance.</param>
-        public Server(IPAddress IP, int port, ICommunicationProtocol protocol)
+        public Server(IPAddress IP, int port)
         {
-            Protocol = protocol;
+
             running = false;
             IPAddress = IP;
             Port = port;
@@ -98,7 +97,28 @@ namespace ServerEchoLibrary
         /// <summary>
         /// This function implements Echo and transmits the data between server and client.
         /// </summary>
-        protected abstract void BeginDataTransmission(NetworkStream stream);
+        protected void BeginDataTransmission(NetworkStream stream)
+        {
+            CommunicationProtocol protocol = new T();
+            byte[] buffer = new byte[1024];
+            while (true)
+            {
+                try
+                {
+                    buffer = new byte[Buffer_size];
+                    int message_size = stream.Read(buffer, 0, Buffer_size);
+                    string message = ASCIIEncoding.UTF8.GetString(buffer);
+                    string response = protocol.GenerateResponse(message);
+                    buffer = ASCIIEncoding.UTF8.GetBytes(response);
+                    stream.Write(buffer, 0, buffer.Length);
+                }
+                catch (IOException e)
+                {
+                    break;
+                }
+            }
+        }
+    
         /// <summary>
         /// This function fires off the default server behaviour. It interrupts the program.
         /// </summary>

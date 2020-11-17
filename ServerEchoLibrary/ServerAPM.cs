@@ -9,10 +9,10 @@ using System.Threading;
 
 namespace ServerEchoLibrary
 {
-    public class ServerAPM : Server
+    public class ServerAPM<T> : Server<T> where T : CommunicationProtocol, new()
     {
         public delegate void TransmissionDataDelegate(NetworkStream stream);
-        public ServerAPM(IPAddress IP, int port, ICommunicationProtocol protocol) : base(IP, port, protocol)
+        public ServerAPM(IPAddress IP, int port) : base(IP, port)
         {
         }
         protected override void AcceptClient()
@@ -32,26 +32,7 @@ namespace ServerEchoLibrary
             TcpClient tcpClient = (TcpClient)ar.AsyncState;
             tcpClient.Close();
         }
-        protected override void BeginDataTransmission(NetworkStream stream)
-        {
-            byte[] buffer = new byte[Buffer_size];
-            while (true)
-            {
-                try
-                {
-                    buffer = new byte[Buffer_size];
-                    int message_size = stream.Read(buffer, 0, Buffer_size);
-                    string message = ASCIIEncoding.UTF8.GetString(buffer);
-                    string response = Protocol.GenerateResponse(message);
-                    buffer = ASCIIEncoding.UTF8.GetBytes(response);
-                    stream.Write(buffer, 0, buffer.Length);
-                }
-                catch (IOException e)
-                {
-                    break;
-                }
-            }
-        }
+
         public override void Start()
         {
             running = true;

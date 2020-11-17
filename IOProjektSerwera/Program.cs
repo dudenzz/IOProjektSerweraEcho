@@ -11,8 +11,10 @@ namespace IOProjektSerwera
     {
         static void Main(string[] args)
         {
-            Server server = new ServerAPM(IPAddress.Parse("127.0.0.1"), 3000, new LoginServerProtocol());
+            Server<LoginServerProtocol> server = new ServerTAP<LoginServerProtocol>(IPAddress.Parse("127.0.0.1"), 3000);
             server.Start();
+
+            while (true) ;
         }
     }
 }

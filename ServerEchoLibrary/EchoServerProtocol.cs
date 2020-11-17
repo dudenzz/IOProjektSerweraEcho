@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ServerEchoLibrary
 {
-    public class EchoServerProtocol : ICommunicationProtocol
+    public class EchoServerProtocol : CommunicationProtocol
     {
         LoginProtocolState protocolState = LoginProtocolState.LISTEN;
         Dictionary<Request, Response> responses;
         Dictionary<string, int> opcodes;
         LoginStatus login;
-        public EchoServerProtocol()
+        public EchoServerProtocol() : base()
         {
             responses = new Dictionary<Request, Response>();
             opcodes = new Dictionary<string, int>();
@@ -29,7 +29,7 @@ namespace ServerEchoLibrary
 
             });
         }
-        public string GenerateResponse(string message)
+        public override string GenerateResponse(string message)
         {
 
             Request request = new Request(opcodes["ANY"], "ANY", null);
@@ -38,17 +38,17 @@ namespace ServerEchoLibrary
             return response.GenerateResponse(message);
         }
 
-        public string GetName()
+        public override string GetName()
         {
             return "EchoProt";
         }
 
-        public string GetAllMessages()
+        public override string GetAllMessages()
         {
             return null;
         }
 
-        public string GetAllResponses()
+        public override string GetAllResponses()
         {
             return null;
         }
