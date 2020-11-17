@@ -8,10 +8,8 @@ namespace ServerEchoLibrary
 {
     public class EchoServerProtocol : CommunicationProtocol
     {
-        LoginProtocolState protocolState = LoginProtocolState.LISTEN;
         Dictionary<Request, Response> responses;
         Dictionary<string, int> opcodes;
-        LoginStatus login;
         public EchoServerProtocol() : base()
         {
             responses = new Dictionary<Request, Response>();
