@@ -9,19 +9,17 @@ using System.Text;
 namespace ServerEchoLibrary
 {
     /// <summary>
-    /// This class implements the most basic TCP Server of the Echo Type.
+    /// This is an abstract class for Servers of Echo type.
     /// </summary>
-    public class ServerEcho
+    public abstract class ServerEcho
     {
         #region Fields
         IPAddress iPAddress;
         int port;
         int buffer_size = 1024;
-        bool running;
+        protected bool running;
         TcpListener tcpListener;
-        TcpClient tcpClient;
-        byte[] buffer;
-        NetworkStream stream;
+
         #endregion
         #region Properties
         /// <summary>
@@ -51,6 +49,9 @@ namespace ServerEchoLibrary
                 if (!running) buffer_size = value; else throw new Exception("nie można zmienić rozmiaru pakietu kiedy serwer jest uruchomiony");
             }
         }
+
+        protected TcpListener TcpListener { get => tcpListener; set => tcpListener = value; }
+
         #endregion
         #region Constructors
         /// <summary>
@@ -76,7 +77,7 @@ namespace ServerEchoLibrary
         /// This function will return false if Port is set to a value lower than 1024 or higher than 49151.
         /// </summary>
         /// <returns>An information wether the set Port value is valid.</returns>
-        bool checkPort()
+        protected bool checkPort()
         {
             if (port < 1024 || port > 49151) return false;
             return true;
@@ -84,47 +85,23 @@ namespace ServerEchoLibrary
         /// <summary>
         /// This function starts the listener.
         /// </summary>
-        void StartListening()
+        protected void StartListening()
         {
-            tcpListener = new TcpListener(IPAddress, Port);
-            tcpListener.Start();
+            TcpListener = new TcpListener(IPAddress, Port);
+            TcpListener.Start();
         }
         /// <summary>
         /// This function waits for the Client connection.
         /// </summary>
-        void AcceptClient()
-        {
-            tcpClient = tcpListener.AcceptTcpClient();
-            buffer = new byte[Buffer_size];
-            stream = tcpClient.GetStream();
-        }
+        protected abstract void AcceptClient();
         /// <summary>
         /// This function implements Echo and transmits the data between server and client.
         /// </summary>
-        void BeginDataTransmission()
-        {
-            while(true)
-            {
-                try
-                {
-                    int message_size = stream.Read(buffer, 0, buffer_size);
-                    stream.Write(buffer, 0, message_size);
-                }
-                catch(IOException e)
-                {
-                    break;
-                }
-            }
-        }
+        protected abstract void BeginDataTransmission(NetworkStream stream);
         /// <summary>
         /// This function fires off the default server behaviour. It interrupts the program.
         /// </summary>
-        public void Start()
-        {
-            StartListening();
-            AcceptClient();
-            BeginDataTransmission();
-        }
+        public abstract void Start();
         #endregion
     }
 }
