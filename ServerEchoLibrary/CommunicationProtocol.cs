@@ -10,6 +10,7 @@ namespace ServerEchoLibrary
     {
         string GenerateResponse(string message);
         string GetName();
-        string 
+        string GetAllMessages();
+        string GetAllResponses();
     }
 }

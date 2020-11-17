@@ -11,17 +11,17 @@ namespace ServerEchoLibrary
     /// <summary>
     /// This class implements the most basic TCP Server of the Echo Type.
     /// </summary>
-    public class ServerEchoSync : Server
+    public class ServerSync : Server
     {
-        public ServerEchoSync(IPAddress IP, int port) : base(IP, port)
+        public ServerSync(IPAddress IP, int port, ICommunicationProtocol protocol) : base(IP, port, protocol)
         {
 
         }
         protected override void AcceptClient()
         {
-            TcpClient = TcpListener.AcceptTcpClient();
+            TcpClient tcpClient = TcpListener.AcceptTcpClient();
             byte[] buffer = new byte[Buffer_size];
-            Stream = TcpClient.GetStream();
+            NetworkStream Stream = tcpClient.GetStream();
             BeginDataTransmission(Stream);
         }
         protected override void BeginDataTransmission(NetworkStream stream)

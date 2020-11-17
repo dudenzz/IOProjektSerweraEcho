@@ -11,7 +11,7 @@ namespace IOProjektSerwera
     {
         static void Main(string[] args)
         {
-            ServerEcho server = new ServerEchoAPM(IPAddress.Parse("127.0.0.1"), 3000);
+            Server server = new ServerAPM(IPAddress.Parse("127.0.0.1"), 3000, new LoginServerProtocol());
             server.Start();
         }
     }

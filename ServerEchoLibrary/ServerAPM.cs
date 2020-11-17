@@ -9,10 +9,10 @@ using System.Threading;
 
 namespace ServerEchoLibrary
 {
-    public class ServerEchoAPM : Server
+    public class ServerAPM : Server
     {
         public delegate void TransmissionDataDelegate(NetworkStream stream);
-        public ServerEchoAPM(IPAddress IP, int port) : base(IP, port)
+        public ServerAPM(IPAddress IP, int port, ICommunicationProtocol protocol) : base(IP, port, protocol)
         {
         }
         protected override void AcceptClient()
@@ -27,8 +27,6 @@ namespace ServerEchoLibrary
             }
         }
 
-
-
         private void TransmissionCallback(IAsyncResult ar)
         {
             TcpClient tcpClient = (TcpClient)ar.AsyncState;
@@ -41,8 +39,12 @@ namespace ServerEchoLibrary
             {
                 try
                 {
+                    buffer = new byte[Buffer_size];
                     int message_size = stream.Read(buffer, 0, Buffer_size);
-                    stream.Write(buffer, 0, message_size);
+                    string message = ASCIIEncoding.UTF8.GetString(buffer);
+                    string response = Protocol.GenerateResponse(message);
+                    buffer = ASCIIEncoding.UTF8.GetBytes(response);
+                    stream.Write(buffer, 0, buffer.Length);
                 }
                 catch (IOException e)
                 {

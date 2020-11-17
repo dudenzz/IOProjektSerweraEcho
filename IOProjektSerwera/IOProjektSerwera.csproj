@@ -48,13 +48,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServerEchoLibrary\ServerLibrary.csproj">
-      <Project>{764339b5-08eb-4dc0-85e5-b931cc5cceb5}</Project>
-      <Name>ServerLibrary</Name>
-    </ProjectReference>
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <ProjectReference Include="..\LoggerLibrary\LoggerLibrary.csproj">
+      <Project>{e7a94278-735d-4611-a032-a77c1a87ea2e}</Project>
+      <Name>LoggerLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServerEchoLibrary\ServerLibrary.csproj">
+      <Project>{09eaf409-fb57-4d1b-b44c-2f869133acd9}</Project>
+      <Name>ServerLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

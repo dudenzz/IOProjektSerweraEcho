@@ -13,6 +13,7 @@ namespace ServerEchoLibrary
     /// </summary>
     public abstract class Server
     {
+
         #region Fields
         IPAddress iPAddress;
         int port;
@@ -50,6 +51,7 @@ namespace ServerEchoLibrary
         }
 
         protected TcpListener TcpListener { get => tcpListener; set => tcpListener = value; }
+        public ICommunicationProtocol Protocol { get; set; }
 
         #endregion
         #region Constructors
@@ -58,9 +60,9 @@ namespace ServerEchoLibrary
         /// </summary>
         /// <param name="IP">IP address of the server instance.</param>
         /// <param name="port">Port number of the server instance.</param>
-        public Server(IPAddress IP, int port)
+        public Server(IPAddress IP, int port, ICommunicationProtocol protocol)
         {
-
+            Protocol = protocol;
             running = false;
             IPAddress = IP;
             Port = port;
