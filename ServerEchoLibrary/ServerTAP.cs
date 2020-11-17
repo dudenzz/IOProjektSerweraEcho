@@ -19,17 +19,12 @@ namespace ServerEchoLibrary
         {
             while (true)
             {
-                Task clientTask = TcpListener.AcceptTcpClientAsync().ContinueWith(
-                    (acceptTask) =>
-                    {
-                        TcpClient client = acceptTask.Result;
-                        BeginDataTransmission(client.GetStream());
-                    }
-                );
+                TcpClient client = TcpListener.AcceptTcpClient();
+                NetworkStream stream = client.GetStream();
+                byte[] buffer = new byte[1024];
+                Task.Run(() => BeginDataTransmission(stream));           
             }
         }
-        
-
         /// <summary>
         /// Overrided comment.
         /// </summary>

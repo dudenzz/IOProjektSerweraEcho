@@ -72,7 +72,7 @@ namespace ServerEchoLibrary
             if (mt == "")
                 return "";
             string[] tokens = message.Split(new char[] { ' ' });
-            string opcode = tokens[0];
+            string opcode = tokens[0].Trim(new char[] { '\r', '\n', '\0' });
             string args;
             if (tokens.Length > 1) args = tokens[1]; else args = null;
             Request request = new Request(opcodes[opcode], opcode, args);

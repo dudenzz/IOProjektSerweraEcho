@@ -23,7 +23,6 @@ namespace ServerEchoLibrary
                 NetworkStream stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
                 transmissionDelegate.BeginInvoke(stream, TransmissionCallback, tcpClient);
-
             }
         }
 

@@ -13,8 +13,7 @@ namespace PodstawoweTestySerwera
         {
             try
             {
-                Server<LoginServerProtocol> server = new ServerTAP<LoginServerProtocol>(IPAddress.Parse("127.0.0.1"), 80);
-                server.Start();
+                Server<LoginServerProtocol> server = new ServerTAP<LoginServerProtocol>(IPAddress.Parse("127.0.0.1"), 80);  
                 Assert.Fail();
             }
             catch (Exception e)
@@ -28,7 +27,10 @@ namespace PodstawoweTestySerwera
             try
             {
                 Server<LoginServerProtocol> server = new ServerTAP<LoginServerProtocol>(IPAddress.Parse("127.0.0"), 3000);
-                server.Start();
+                Assert.Fail();
+            }
+            catch (AssertFailedException)
+            {
                 Assert.Fail();
             }
             catch (Exception e)

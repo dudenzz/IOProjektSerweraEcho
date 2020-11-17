@@ -13,7 +13,6 @@ namespace IOProjektSerwera
         {
             Server<LoginServerProtocol> server = new ServerTAP<LoginServerProtocol>(IPAddress.Parse("127.0.0.1"), 3000);
             server.Start();
-
             while (true) ;
         }
     }
