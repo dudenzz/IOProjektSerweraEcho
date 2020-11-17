@@ -42,15 +42,31 @@ namespace ServerEchoLibrary
                 TcpClient tcpClient = TcpListener.AcceptTcpClient();
                 NetworkStream Stream = tcpClient.GetStream();
                 TransmissionDataDelegate transmissionDelegate = new TransmissionDataDelegate(BeginDataTransmission);
-
-
+                /*
+                 * 1. Tryb callback
+                 * 2. Tryb EndInvoke
+                 * 3. WaitHandle
+                 * 4. Polling
+                 * */
 
                 ////////callback style
-                transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient);
+                //transmissionDelegate.BeginInvoke(Stream, TransmissionCallback, tcpClient );
 
                 //async result style
-                //IntegerOperation funkcjaSilni = new IntegerOperation(Factorial);
-                //var id1 = funkcjaSilni.BeginInvoke(5, null, null);
+                IntegerOperation funkcjaSilni = new IntegerOperation(Factorial);
+                IntegerOperation funkcjaKrawedzi = new IntegerOperation(Edges);
+                IAsyncResult id1 = funkcjaSilni.BeginInvoke(5, null, null);
+                IAsyncResult id2 = funkcjaSilni.BeginInvoke(10, null, null);
+                IAsyncResult id3 = funkcjaSilni.BeginInvoke(15, null, null);
+                IAsyncResult id4 = funkcjaKrawedzi.BeginInvoke(5, null, null);
+                IAsyncResult id5 = funkcjaKrawedzi.BeginInvoke(10, null, null);
+                IAsyncResult id6 = funkcjaKrawedzi.BeginInvoke(15, null, null);
+                //
+
+                WaitHandle.WaitAny(new WaitHandle[] { id1.AsyncWaitHandle, id2.AsyncWaitHandle, id3.AsyncWaitHandle, id4.AsyncWaitHandle, id5.AsyncWaitHandle, id6.AsyncWaitHandle});
+
+
+                int wynik_silni = funkcjaSilni.EndInvoke(id1);
                 //var id2 = funkcjaSilni.BeginInvoke(10, null, null);
                 ////wątek główny
                 //id1.AsyncWaitHandle.WaitOne();
@@ -70,8 +86,7 @@ namespace ServerEchoLibrary
 
         private void TransmissionCallback(IAsyncResult ar)
         {
-
-
+            
             TcpClient tcpClient = (TcpClient)ar.AsyncState;
             tcpClient.Close();
         }
